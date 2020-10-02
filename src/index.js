@@ -1,11 +1,15 @@
 console.log('%c HI', 'color: firebrick')
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
 const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+let breeds = []
+//let li
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", callOnLoad) 
+
+function callOnLoad() {
   fetchContent();
   fetchBreeds();
-})
+}
 
 function fetchContent() {
   fetch(imgUrl)
@@ -30,10 +34,11 @@ function fetchBreeds() {
   fetch(breedUrl)
   .then(resp => resp.json())
   .then(breeds => {
-    console.log(breeds) 
-    renderBreeds(breeds.message)
+    console.log(breeds)
+    breeds = Object.keys(breeds.message)
+    renderBreeds(breeds)
   })
-}
+} 
 
 function renderBreeds(breeds) {
   let ul = document.getElementById('dog-breeds');
@@ -41,12 +46,14 @@ function renderBreeds(breeds) {
     let li = document.createElement('li')
     li.innerText = breed
     ul.appendChild(li)
-    li().addEventListener('click', greenText)
+    li.addEventListener('click', function(e) {
+      e.target.style.color = 'green';
+    });
   })
 }
+ 
 
-let li = () => document.querySelector('li')
+ 
+ //need to grab each individual li that's listed..
+ 
 
-function greenText() {
-  li().style.color = 'green'
-}
